@@ -1,0 +1,22 @@
+<script type="text/javascript">
+	debugger;
+	hailstoneLength(0);
+
+	function hailstoneLength(l) {
+		for (var i = 1;; i++) {
+			if (getLength(i) == l) return i
+		}
+	}
+
+	function getLength(n) {
+		for (var length = 0;; length++) {
+			if (n == 1) return length
+
+			if (n % 2)
+				n = 3 * n + 1
+			else
+				n = n / 2
+		}
+	}
+
+</script>

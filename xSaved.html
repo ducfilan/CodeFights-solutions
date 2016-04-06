@@ -1,0 +1,153 @@
+<script type="text/javascript">
+    var z = '^v><';
+
+    xSaved = (room, n) => {
+        var curPos = f(room);
+        room[curPos[0]][curPos[1]] = ' ';
+
+        for (var i = 0; i < room.length; i++) {
+            for (var j = 0; j < room[0].length; j++) {
+                switch (room[i][j]) {
+                    case '^':
+                        room = g(room, [i, j], 1);
+                        break;
+                    case '>':
+                        room = g(room, [i, j], 2);
+                        break;
+                    case 'v':
+                        room = g(room, [i, j], 3);
+                        break;
+                    case '<':
+                        room = g(room, [i, j], 4);
+                        break;
+                }
+            }
+        }
+
+        for (var i = 0; i <= n; i++) {
+            if (h(room, curPos, i)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function h(arr, currPos, stepCount) {
+        var stepsLeftMovable = 0;
+        var stepsRightMovable = 0;
+        var stepsUpMovable = 0;
+        var stepsDownMovable = 0;
+
+        for (var i = currPos[1] + 1; i < arr[0].length; i++) {
+            var v = arr[currPos[0]][i];
+            if (v == ' ' || v == 1) {
+                stepsRightMovable++;
+            } else {
+                break;
+            }
+        }
+        for (var i = currPos[1] - 1; i >= 0; i--) {
+            var v = arr[currPos[0]][i];
+            if (v == ' ' || v == 1) {
+                stepsLeftMovable++;
+            } else {
+                break;
+            }
+        }
+        for (var i = currPos[0] - 1; i >= 0; i--) {
+            var v = arr[i][currPos[1]];
+            if (v == ' ' || v == 1) {
+                stepsUpMovable++;
+            } else {
+                break;
+            }
+        }
+        for (var i = currPos[0] + 1; i < arr.length; i++) {
+            var v = arr[i][currPos[1]];
+            if (v == ' ' || v == 1) {
+                stepsDownMovable++;
+            } else {
+                break;
+            }
+        }
+
+        return (currPos[0] - stepCount >= 0 &&
+                stepsUpMovable >= stepCount &&
+                arr[currPos[0] - stepCount][currPos[1]] == ' ') ||
+
+            (arr[currPos[0]][currPos[1] + stepCount] == ' ' &&
+                stepsRightMovable >= stepCount) ||
+
+            (currPos[0] + stepCount < arr.length &&
+                stepsDownMovable >= stepCount &&
+                arr[currPos[0] + stepCount][currPos[1]] == ' ') ||
+
+            (arr[currPos[0]][currPos[1] - stepCount] == ' ' &&
+                stepsLeftMovable >= stepCount);
+    }
+
+
+    function f(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var index = arr[i].indexOf('x');
+            if (index > -1) {
+                return [i, index];
+            }
+        }
+    }
+
+    function g(arr, pos, direction) {
+        var w = arr[0].length;
+        var h = arr.length;
+
+        switch (direction) {
+            // Up.
+            case 1:
+                for (var i = pos[0] - 1; i >= 0; i--) {
+                    if (z.indexOf(arr[i][pos[1]]) > -1) {
+                        break;
+                    }
+                    arr[i][pos[1]] = 1;
+                }
+                break;
+                // Right.
+            case 2:
+                for (var i = pos[1] + 1; i < w; i++) {
+                    if (z.indexOf(arr[pos[0]][i]) > -1) {
+                        break;
+                    }
+                    arr[pos[0]][i] = 1;
+                }
+                break;
+                // Down.
+            case 3:
+                for (var i = pos[0] + 1; i < h; i++) {
+                    if (z.indexOf(arr[i][pos[1]]) > -1) {
+                        break;
+                    }
+                    arr[i][pos[1]] = 1;
+                }
+                break;
+                // Left.
+            case 4:
+                for (var i = pos[1] - 1; i >= 0; i--) {
+                    if (z.indexOf(arr[pos[0]][i]) > -1) {
+                        break;
+                    }
+                    arr[pos[0]][i] = 1;
+                }
+                break;
+        }
+
+        return arr;
+    }
+
+    var xxx = xSaved([
+        [" ", "v", " ", "<"],
+        [">", "<", "x", " "],
+        [" ", " ", "v", "^"]
+    ], 3);
+    debugger;
+
+</script>

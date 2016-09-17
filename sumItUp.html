@@ -4,18 +4,17 @@
 	s = a => a.reduce((b, c) => b * c)
 
 	SumItUp = (n, k) => {
-		d = e = 0
+	    d = e = 0
 
-		while (d++ < k)
-			e += s(f(n, k, d))
+	    while (d++ < k)
+	        e += s(f(n, k, d))
 
-		return e
+	    return e
 	}
 
 	f = (n, k, s) => {
-		for (o = [], i = 0; i <= n; o[i] = s + i++);
+	    for (o = [], i = 0; i <= n; o[i] = s + i++);
 
-		return o
+	    return o
 	}
-
 </script>
